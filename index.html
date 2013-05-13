@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>THE Star Wars Game</title>
+    <link href="./assets/Styles.css" rel="stylesheet" type="text/css" />
+
+    <!-- Import EaselJS Framework -->
+    <script src="http://code.createjs.com/easeljs-0.6.0.min.js"></script>
+
+    <!-- Game Specific files  -->
+    <script type="text/javascript" src="./js/XNARectangle.js"></script>
+    <script type="text/javascript" src="./js/ContentManager.js"></script>
+    <script type="text/javascript" src="./js/Tile.js"></script>
+    <script type="text/javascript" src="./js/Lightsaber.js"></script>
+    <script type="text/javascript" src="./js/Luke.js"></script>
+    <script type="text/javascript" src="./js/Darth.js"></script>
+    <script type="text/javascript" src="./js/Level.js"></script>
+    <script type="text/javascript" src="./js/Game.js"></script>
+    <script type="text/javascript" src="./js/Helper.js"></script>
+
+	<!-- We also provide hosted minified versions of all CreateJS libraries.
+	  http://code.createjs.com -->
+
+    <script type="text/javascript">
+    var canvas;
+    var stage = null;
+    var contentManager;
+    var Game;
+    var ctx;
+    var enableShadows = true;
+    var enableRAF = true;
+    var screen_width;
+    var screen_height;
+    // Simuate keypress for touch devices
+
+    function upKey() {
+        Game.handleKeyDown({ "keyCode": 87 });
+    }
+
+    function downKey() {
+        Game.handleKeyDown({ "keyCode": 83 });
+    }
+
+    function leftKey() {
+        Game.handleKeyDown({ "keyCode": 37 });
+    }
+
+    function rightKey() {
+        Game.handleKeyDown({ "keyCode": 39 });
+    }
+
+    function init() {
+        if (stage == null) {
+            canvas = document.getElementById("testCanvas");
+            // create stage
+            stage = new createjs.Stage(canvas);
+
+            screen_width = canvas.width;
+            screen_height = canvas.height;
+
+
+            // Load content
+            contentManager =  new ContentManager(stage, screen_width, screen_height);
+            contentManager.SetDownloadCompleted(startGame);
+            contentManager.StartDownload();
+        }
+        else {
+            platformerGame.ReloadCurrentLevel();
+        }
+
+    }
+
+    function startGame() {
+        StarGame = new Game(stage, contentManager, screen_width, screen_height);
+        StarGame.StartGame();
+
+    }
+
+    function processSelection(btn) {
+        switch (btn.buttonID) {
+            case ieBtnLeft:
+                leftKey();
+                break;
+
+            case ieBtnRight:
+                rightKey();
+                break;
+
+            case ieBtnJump:
+                jumpKey();
+                break;
+        }
+    }
+
+    </script>
+</head>
+<body onload="init()">
+
+    <header id="header" class="EaselJS">
+        <h1><span class="text-product">A complete <strong>Star Wars</strong></span> Game</h1>
+        <p>Use up, down ,left and right keys to navigate through the board. Collect lightsabers and then go to the moon in order to win. Beware of the <strong>The Dark Side</strong></p>
+        <p>After the game is finished hit refresh to play again and again.</p>
+    </header>
+    <div id="canvasHolder">
+        <canvas id="testCanvas" width="960" height="400"></canvas>
+    <div>
+    <!-- Div for holding Audio -->
+    <div class="audioHolder">
+    </div>
+</body>
+</html>
